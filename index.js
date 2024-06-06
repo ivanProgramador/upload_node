@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const multer = require("multer");
+const path = require("path");
 
 app.set('view engine','ejs');
 
@@ -19,7 +20,7 @@ app.set('view engine','ejs');
   avisa aoa multer que arquivo cvai ficar com o nome original
   quando fpor salvo 
 
-  Resolvendo o porbelma de nomeação
+  Resolvendo o problema de nomeação
 */
 
 const storage = multer.diskStorage({
@@ -27,7 +28,14 @@ const storage = multer.diskStorage({
         cb(null,"uploads/");
     },
     filename:function(req,file,cb){
-        cb(null,file.originalname);
+        //atribuindo um identificador proprio para cada aruivo recebido 
+        /*
+           aqui eu recebo o nome original do aruivo , concateno com a adata atual depois e concateno com o 
+           path.extname() que serve para poegar soemnter a extenção do arquivo dentro dele eu aponto para o aquivo 
+           assim nenhum aqruivo que for salvo vai ter o mesmo nome 
+        */
+
+        cb(null,file.originalname + Date.now() + path.extname(file.originalname));
     }
 })
 
